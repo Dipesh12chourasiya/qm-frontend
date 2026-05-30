@@ -1,0 +1,126 @@
+frontend/
+│
+├── public/
+│
+├── src/
+│
+│   ├── api/
+│   │   ├── axios.js
+│   │   ├── authApi.js
+│   │   ├── questionApi.js
+│   │   ├── testApi.js
+│   │   └── attemptApi.js
+│   │
+│   ├── assets/
+│   │   ├── images/
+│   │   ├── icons/
+│   │   └── logo.png
+│   │
+│   ├── components/
+│   │
+│   │   ├── common/
+│   │   │   ├── Loader.jsx
+│   │   │   ├── Button.jsx
+│   │   │   ├── Input.jsx
+│   │   │   ├── Modal.jsx
+│   │   │   ├── EmptyState.jsx
+│   │   │   └── PageHeader.jsx
+│   │   │
+│   │   ├── layout/
+│   │   │   ├── Navbar.jsx
+│   │   │   ├── Sidebar.jsx
+│   │   │   ├── StudentLayout.jsx
+│   │   │   ├── CompanyLayout.jsx
+│   │   │   └── Footer.jsx
+│   │   │
+│   │   ├── auth/
+│   │   │   ├── LoginForm.jsx
+│   │   │   └── RegisterForm.jsx
+│   │   │
+│   │   ├── question/
+│   │   │   ├── QuestionCard.jsx
+│   │   │   ├── QuestionTable.jsx
+│   │   │   └── QuestionForm.jsx
+│   │   │
+│   │   ├── test/
+│   │   │   ├── TestCard.jsx
+│   │   │   ├── TestTable.jsx
+│   │   │   ├── TestForm.jsx
+│   │   │   └── TestInstructions.jsx
+│   │   │
+│   │   ├── attempt/
+│   │   │   ├── QuestionNavigator.jsx
+│   │   │   ├── AttemptQuestion.jsx
+│   │   │   ├── Timer.jsx
+│   │   │   └── ResultCard.jsx
+│   │   │
+│   │   └── proctoring/
+│   │       ├── CameraMonitor.jsx
+│   │       ├── FullscreenMonitor.jsx
+│   │       ├── TabSwitchMonitor.jsx
+│   │       ├── ViolationCounter.jsx
+│   │       └── InternetStatus.jsx
+│   │
+│   ├── context/
+│   │   ├── AuthContext.jsx
+│   │   └── ThemeContext.jsx
+│   │
+│   ├── hooks/
+│   │   ├── useAuth.js
+│   │   ├── useQuestions.js
+│   │   ├── useTests.js
+│   │   └── useAttempts.js
+│   │
+│   ├── pages/
+│   │
+│   │   ├── public/
+│   │   │   ├── Home.jsx
+│   │   │   ├── Login.jsx
+│   │   │   ├── Register.jsx
+│   │   │   ├── Unauthorized.jsx
+│   │   │   └── NotFound.jsx
+│   │   │
+│   │   ├── student/
+│   │   │   ├── StudentDashboard.jsx
+│   │   │   ├── AvailableTests.jsx
+│   │   │   ├── TestDetails.jsx
+│   │   │   ├── AttemptTest.jsx
+│   │   │   ├── MyAttempts.jsx
+│   │   │   └── ResultPage.jsx
+│   │   │
+│   │   └── company/
+│   │       ├── CompanyDashboard.jsx
+│   │       ├── QuestionBank.jsx
+│   │       ├── CreateQuestion.jsx
+│   │       ├── EditQuestion.jsx
+│   │       ├── CreateTest.jsx
+│   │       ├── MyTests.jsx
+│   │       ├── TestDetails.jsx
+│   │       └── Analytics.jsx
+│   │
+│   ├── routes/
+│   │   ├── AppRoutes.jsx
+│   │   ├── ProtectedRoute.jsx
+│   │   ├── UserRoute.jsx
+│   │   └── CompanyRoute.jsx
+│   │
+│   ├── services/
+│   │   ├── authService.js
+│   │   ├── questionService.js
+│   │   ├── testService.js
+│   │   └── attemptService.js
+│   │
+│   ├── utils/
+│   │   ├── constants.js
+│   │   ├── formatDate.js
+│   │   ├── storage.js
+│   │   └── validators.js
+│   │
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── index.css
+│
+├── .env
+├── package.json
+├── vite.config.js
+└── tailwind.config.js

@@ -1,2 +1,19 @@
 @import "tailwindcss";
 @tailwind utilities;
+
+* {
+  font-family: Inter, sans-serif;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+body {
+  @apply bg-neutral-50 text-black;
+  font-family: Inter, sans-serif;
+}
+
