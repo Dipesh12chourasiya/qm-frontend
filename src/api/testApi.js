@@ -24,6 +24,16 @@ export const getTestByIdApi = async (id) => {
   return response.data;
 };
 
+export const activateTestApi =
+  async (id) => {
+    const response =
+      await api.patch(
+        `/api/tests/${id}/activate`
+      );
+
+    return response.data;
+  };
+
 export const registerForTestApi = async (id) => {
   const response = await api.post(
     `/api/tests/${id}/register`

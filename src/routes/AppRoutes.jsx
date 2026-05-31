@@ -19,6 +19,13 @@ import MyTests from "../pages/company/MyTests";
 import TestDetails from "../pages/company/TestDetails";
 import Analytics from "../pages/company/Analytics";
 
+import StudentDashboard from "../pages/student/StudentDashboard";
+import AvailableTests from "../pages/student/AvailableTests";
+import StudentTestDetails from "../pages/student/TestDetails";
+import AttemptTest from "../pages/student/AttemptTest";
+import MyAttempts from "../pages/student/MyAttempts";
+import ResultPage from "../pages/student/ResultPage";
+
 import UserRoute from "./UserRoute";
 import ProtectedRoute from "./ProtectedRoute";
 import CompanyRoute from "./CompanyRoute";
@@ -29,10 +36,7 @@ const AppRoutes = () => {
       {/* PUBLIC ROUTES */}
 
       <Route element={<PublicLayout />}>
-        <Route
-          path="/"
-          element={<Home />}
-        />
+        <Route path="/" element={<Home />} />
 
         <Route
           path="/login"
@@ -52,10 +56,7 @@ const AppRoutes = () => {
           }
         />
 
-        <Route
-          path="/unauthorized"
-          element={<Unauthorized />}
-        />
+        <Route path="/unauthorized" element={<Unauthorized />} />
       </Route>
 
       {/* COMPANY ROUTES */}
@@ -70,45 +71,21 @@ const AppRoutes = () => {
           </ProtectedRoute>
         }
       >
-        <Route
-          path="dashboard"
-          element={<CompanyDashboard />}
-        />
+        <Route path="dashboard" element={<CompanyDashboard />} />
 
-        <Route
-          path="questions"
-          element={<QuestionBank />}
-        />
+        <Route path="questions" element={<QuestionBank />} />
 
-        <Route
-          path="questions/create"
-          element={<CreateQuestion />}
-        />
+        <Route path="questions/create" element={<CreateQuestion />} />
 
-        <Route
-          path="questions/edit/:id"
-          element={<EditQuestion />}
-        />
+        <Route path="questions/edit/:id" element={<EditQuestion />} />
 
-        <Route
-          path="create-test"
-          element={<CreateTest />}
-        />
+        <Route path="create-test" element={<CreateTest />} />
 
-        <Route
-          path="tests"
-          element={<MyTests />}
-        />
+        <Route path="tests" element={<MyTests />} />
 
-        <Route
-          path="tests/:id"
-          element={<TestDetails />}
-        />
+        <Route path="tests/:id" element={<TestDetails />} />
 
-        <Route
-          path="analytics"
-          element={<Analytics />}
-        />
+        <Route path="analytics" element={<Analytics />} />
       </Route>
 
       {/* STUDENT ROUTES */}
@@ -121,15 +98,21 @@ const AppRoutes = () => {
           </ProtectedRoute>
         }
       >
-        {/* Add student pages here */}
+        <Route path="dashboard" element={<StudentDashboard />} />
+
+        <Route path="tests" element={<AvailableTests />} />
+
+        <Route path="tests/:id" element={<StudentTestDetails />} />
+
+        <Route path="attempt/:testId" element={<AttemptTest />} />
+
+        <Route path="attempts" element={<MyAttempts />} />
+
+        <Route path="result" element={<ResultPage />} />
       </Route>
 
       {/* 404 */}
-
-      <Route
-        path="*"
-        element={<NotFound />}
-      />
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

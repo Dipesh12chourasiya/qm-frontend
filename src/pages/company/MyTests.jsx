@@ -13,8 +13,10 @@ import TestTable from "../../components/test/TestTable";
 import { useTests } from "../../hooks/useTests";
 
 const MyTests = () => {
-  const { getMyTests } =
-    useTests();
+  const {
+    getMyTests,
+    activateTest,
+  } = useTests();
 
   const navigate =
     useNavigate();
@@ -45,13 +47,28 @@ const MyTests = () => {
     );
   };
 
-  const handleEdit = (
-    test
-  ) => {
-    navigate(
-      `/company/tests/edit/${test._id}`
-    );
-  };
+  const handleActivate =
+    async (test) => {
+      try {
+        await activateTest(
+          test._id
+        );
+
+        alert(
+          "Test activated successfully"
+        );
+
+        fetchTests();
+      } catch (error) {
+        console.log(error);
+
+        alert(
+          error?.response?.data
+            ?.message ||
+            "Failed to activate test"
+        );
+      }
+    };
 
   return (
     <div className="space-y-6">
@@ -63,7 +80,9 @@ const MyTests = () => {
       <TestTable
         tests={tests}
         onView={handleView}
-        onEdit={handleEdit}
+        onActivate={
+          handleActivate
+        }
       />
     </div>
   );

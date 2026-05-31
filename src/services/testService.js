@@ -4,6 +4,7 @@ import {
   getMyTestsApi,
   getTestByIdApi,
   registerForTestApi,
+  activateTestApi,
 } from "../api/testApi";
 
 export const createTest = async (data) => {
@@ -21,6 +22,11 @@ export const getMyTests = async () => {
 export const getTestById = async (id) => {
   return await getTestByIdApi(id);
 };
+
+export const activateTest =
+  async (id) => {
+    return await activateTestApi(id);
+  };
 
 export const registerForTest = async (id) => {
   return await registerForTestApi(id);
