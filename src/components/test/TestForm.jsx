@@ -9,52 +9,34 @@ const TestForm = ({
   onSubmit,
   loading = false,
 }) => {
-  const [selectedQuestions, setSelectedQuestions] =
-    useState(
-      initialData?.questions || []
-    );
+  const [selectedQuestions, setSelectedQuestions] = useState(
+    initialData?.questionIds || [],
+  );
 
-  const [formData, setFormData] =
-    useState({
-      title:
-        initialData?.title || "",
+  const [formData, setFormData] = useState({
+    title: initialData?.title || "",
 
-      description:
-        initialData?.description || "",
+    description: initialData?.description || "",
 
-      duration:
-        initialData?.duration || 30,
+    duration: initialData?.duration || 30,
 
-      passingMarks:
-        initialData?.passingMarks || 0,
+    passingMarks: initialData?.passingMarks || 0,
 
-      status:
-        initialData?.status ||
-        "ACTIVE",
-    });
+    status: initialData?.status || "ACTIVE",
+  });
 
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
-      [e.target.name]:
-        e.target.value,
+      [e.target.name]: e.target.value,
     }));
   };
 
   const toggleQuestion = (id) => {
-    if (
-      selectedQuestions.includes(id)
-    ) {
-      setSelectedQuestions(
-        selectedQuestions.filter(
-          (q) => q !== id
-        )
-      );
+    if (selectedQuestions.includes(id)) {
+      setSelectedQuestions(selectedQuestions.filter((q) => q !== id));
     } else {
-      setSelectedQuestions([
-        ...selectedQuestions,
-        id,
-      ]);
+      setSelectedQuestions([...selectedQuestions, id]);
     }
   };
 
@@ -63,10 +45,11 @@ const TestForm = ({
 
     onSubmit({
       ...formData,
-      questions:
-        selectedQuestions,
+      questionIds: selectedQuestions,
     });
   };
+
+  // console.log("Questions:", questions);
 
   return (
     <form
@@ -74,9 +57,7 @@ const TestForm = ({
       className="bg-white border border-neutral-200 rounded-3xl p-8 space-y-6"
     >
       <h2 className="text-2xl font-bold">
-        {initialData
-          ? "Edit Test"
-          : "Create Test"}
+        {initialData ? "Edit Test" : "Create Test"}
       </h2>
 
       <Input
@@ -88,19 +69,13 @@ const TestForm = ({
       />
 
       <div>
-        <label className="font-medium">
-          Description
-        </label>
+        <label className="font-medium">Description</label>
 
         <textarea
           rows={4}
           name="description"
-          value={
-            formData.description
-          }
-          onChange={
-            handleChange
-          }
+          value={formData.description}
+          onChange={handleChange}
           className="w-full mt-2 border border-neutral-300 rounded-xl p-4 outline-none focus:border-black"
         />
       </div>
@@ -109,12 +84,8 @@ const TestForm = ({
         label="Duration (Minutes)"
         type="number"
         name="duration"
-        value={
-          formData.duration
-        }
-        onChange={
-          handleChange
-        }
+        value={formData.duration}
+        onChange={handleChange}
         required
       />
 
@@ -122,19 +93,13 @@ const TestForm = ({
         label="Passing Marks"
         type="number"
         name="passingMarks"
-        value={
-          formData.passingMarks
-        }
-        onChange={
-          handleChange
-        }
+        value={formData.passingMarks}
+        onChange={handleChange}
         required
       />
 
       <div>
-        <label className="font-medium block mb-3">
-          Select Questions
-        </label>
+        <label className="font-medium block mb-3">Select Questions</label>
 
         <div className="border border-neutral-300 rounded-xl max-h-80 overflow-y-auto">
           {questions.map((q) => (
@@ -144,32 +109,24 @@ const TestForm = ({
             >
               <input
                 type="checkbox"
-                checked={selectedQuestions.includes(
-                  q._id
-                )}
-                onChange={() =>
-                  toggleQuestion(
-                    q._id
-                  )
-                }
+                checked={selectedQuestions.includes(q._id)}
+                onChange={() => toggleQuestion(q._id)}
               />
 
-              <span>
-                {q.question}
-              </span>
+              <div className="flex-1">
+                <p className="font-medium text-black">{q.questionText}</p>
+
+                <div className="text-sm text-neutral-500 mt-1">
+                  {q.category} • {q.difficulty} • {q.marks} mark(s)
+                </div>
+              </div>
             </label>
           ))}
         </div>
       </div>
 
-      <Button
-        type="submit"
-        loading={loading}
-        className="w-full"
-      >
-        {initialData
-          ? "Update Test"
-          : "Create Test"}
+      <Button type="submit" loading={loading} className="w-full">
+        {initialData ? "Update Test" : "Create Test"}
       </Button>
     </form>
   );

@@ -6,7 +6,7 @@ const Sidebar = ({ links }) => {
     <aside className="w-72 bg-black text-white min-h-screen border-r border-neutral-800">
       <div className="h-16 flex items-center px-6 border-b border-neutral-800">
         <h2 className="text-xl font-bold">
-          InterviewPro
+          QuizMaster
         </h2>
       </div>
 

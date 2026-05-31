@@ -1,7 +1,15 @@
 import { Link } from "react-router-dom";
 import Button from "../../components/common/Button";
+import { useAuthContext } from "../../context/AuthContext";
 
 const Home = () => {
+  const { isAuthenticated, user } = useAuthContext();
+
+  const dashboardLink =
+    user?.role === "USER"
+      ? "/student/dashboard"
+      : "/company/dashboard";
+
   return (
     <>
       {/* Hero */}
@@ -23,27 +31,32 @@ const Home = () => {
             from a single platform.
           </p>
 
+          {/* CTA Section */}
           <div className="mt-10 flex justify-center gap-4">
-            <Link to="/register">
-              <Button size="lg">
-                Get Started
-              </Button>
-            </Link>
+            {!isAuthenticated ? (
+              <>
+                <Link to="/register">
+                  <Button size="lg">Get Started</Button>
+                </Link>
 
-            <Link to="/login">
-              <Button
-                variant="secondary"
-                size="lg"
-              >
-                Login
-              </Button>
-            </Link>
+                <Link to="/login">
+                  <Button variant="secondary" size="lg">
+                    Login
+                  </Button>
+                </Link>
+              </>
+            ) : (
+              <Link to={dashboardLink}>
+                <Button size="lg">
+                  Go to Dashboard
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
       </section>
 
       {/* Features */}
-
       <section className="max-w-7xl mx-auto px-6 pb-24">
         <div className="grid md:grid-cols-3 gap-6">
           {[

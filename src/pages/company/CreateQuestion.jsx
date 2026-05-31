@@ -1,13 +1,22 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import QuestionForm from "../../components/question/QuestionForm";
 import PageHeader from "../../components/common/PageHeader";
+import { useQuestions } from "../../hooks/useQuestions";
 
 const CreateQuestion = () => {
-  const handleSubmit = (
-    data
-  ) => {
-    console.log(data);
+  const navigate = useNavigate();
+  const { createQuestion, loading } = useQuestions();
+
+  const handleSubmit = async (data) => {
+    try {
+      await createQuestion(data);
+      alert("Question Created");
+      navigate("/company/questions");
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -19,6 +28,7 @@ const CreateQuestion = () => {
 
       <QuestionForm
         onSubmit={handleSubmit}
+        loading={loading}
       />
     </div>
   );

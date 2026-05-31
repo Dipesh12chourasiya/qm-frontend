@@ -1,48 +1,62 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import Input from "../common/Input";
 import Button from "../common/Button";
+import Loader from "../common/Loader";
 
 const QuestionForm = ({
   initialData = null,
   onSubmit,
   loading = false,
 }) => {
-  const [formData, setFormData] =
-    useState({
-      question:
-        initialData?.question || "",
+  const [formData, setFormData] = useState({
+    questionText: "",
+    option1: "",
+    option2: "",
+    option3: "",
+    option4: "",
+    correctAnswer: "",
+    category: "Technical",
+    difficulty: "Easy",
+    marks: 1,
+    explanation: "",
+  });
+
+  useEffect(() => {
+    if (!initialData) return;
+
+    setFormData({
+      questionText:
+        initialData.questionText || "",
 
       option1:
-        initialData?.options?.[0] ||
-        "",
+        initialData.options?.[0] || "",
 
       option2:
-        initialData?.options?.[1] ||
-        "",
+        initialData.options?.[1] || "",
 
       option3:
-        initialData?.options?.[2] ||
-        "",
+        initialData.options?.[2] || "",
 
       option4:
-        initialData?.options?.[3] ||
-        "",
+        initialData.options?.[3] || "",
 
       correctAnswer:
-        initialData?.correctAnswer ||
-        "",
+        initialData.correctAnswer || "",
 
       category:
-        initialData?.category || "",
+        initialData.category || "Technical",
 
       difficulty:
-        initialData?.difficulty ||
-        "Easy",
+        initialData.difficulty || "Easy",
 
       marks:
-        initialData?.marks || 1,
+        initialData.marks || 1,
+
+      explanation:
+        initialData.explanation || "",
     });
+  }, [initialData]);
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -56,8 +70,8 @@ const QuestionForm = ({
     e.preventDefault();
 
     onSubmit({
-      question:
-        formData.question,
+      questionText:
+        formData.questionText,
 
       options: [
         formData.option1,
@@ -78,8 +92,16 @@ const QuestionForm = ({
       marks: Number(
         formData.marks
       ),
+
+      explanation:
+        formData.explanation,
     });
   };
+
+  // Show loader while editing and data hasn't arrived yet
+  if (loading && !initialData) {
+    return <Loader />;
+  }
 
   return (
     <form
@@ -98,10 +120,10 @@ const QuestionForm = ({
         </label>
 
         <textarea
-          name="question"
+          name="questionText"
           rows="4"
           value={
-            formData.question
+            formData.questionText
           }
           onChange={
             handleChange
@@ -172,18 +194,38 @@ const QuestionForm = ({
         required
       />
 
-      <Input
-        label="Category"
-        name="category"
-        value={
-          formData.category
-        }
-        onChange={
-          handleChange
-        }
-        placeholder="Java, React, DBMS..."
-        required
-      />
+      <div>
+        <label className="block mb-2 font-medium">
+          Category
+        </label>
+
+        <select
+          name="category"
+          value={
+            formData.category
+          }
+          onChange={
+            handleChange
+          }
+          className="w-full border border-neutral-300 rounded-xl p-3"
+        >
+          <option value="Aptitude">
+            Aptitude
+          </option>
+
+          <option value="Reasoning">
+            Reasoning
+          </option>
+
+          <option value="Verbal">
+            Verbal
+          </option>
+
+          <option value="Technical">
+            Technical
+          </option>
+        </select>
+      </div>
 
       <div>
         <label className="block mb-2 font-medium">
@@ -200,13 +242,15 @@ const QuestionForm = ({
           }
           className="w-full border border-neutral-300 rounded-xl p-3"
         >
-          <option>
+          <option value="Easy">
             Easy
           </option>
-          <option>
+
+          <option value="Medium">
             Medium
           </option>
-          <option>
+
+          <option value="Hard">
             Hard
           </option>
         </select>
@@ -224,6 +268,24 @@ const QuestionForm = ({
         }
         required
       />
+
+      <div>
+        <label className="font-medium">
+          Explanation
+        </label>
+
+        <textarea
+          name="explanation"
+          rows="3"
+          value={
+            formData.explanation
+          }
+          onChange={
+            handleChange
+          }
+          className="w-full mt-2 border border-neutral-300 rounded-xl p-4 outline-none focus:border-black"
+        />
+      </div>
 
       <Button
         type="submit"

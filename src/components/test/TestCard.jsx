@@ -1,82 +1,210 @@
-import React from "react";
+import React, { useState } from "react";
+
+import Input from "../common/Input";
 import Button from "../common/Button";
 
-const TestCard = ({
-  test,
-  onView,
-  onEdit,
+const TestForm = ({
+  initialData = null,
+  questions = [],
+  onSubmit,
+  loading = false,
 }) => {
+  const [selectedQuestions, setSelectedQuestions] =
+    useState(
+      initialData?.questionIds || []
+    );
+
+  const [formData, setFormData] =
+    useState({
+      title:
+        initialData?.title || "",
+
+      description:
+        initialData?.description || "",
+
+      duration:
+        initialData?.duration || 30,
+
+      status:
+        initialData?.status ||
+        "ACTIVE",
+    });
+
+  const handleChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.name]:
+        e.target.value,
+    }));
+  };
+
+  const toggleQuestion = (id) => {
+    if (
+      selectedQuestions.includes(id)
+    ) {
+      setSelectedQuestions(
+        selectedQuestions.filter(
+          (q) => q !== id
+        )
+      );
+    } else {
+      setSelectedQuestions([
+        ...selectedQuestions,
+        id,
+      ]);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (
+      selectedQuestions.length === 0
+    ) {
+      alert(
+        "Please select at least one question"
+      );
+      return;
+    }
+
+    onSubmit({
+      ...formData,
+      questionIds:
+        selectedQuestions,
+    });
+  };
+
   return (
-    <div className="bg-white border border-neutral-200 rounded-2xl p-6 hover:shadow-md transition">
-      <div className="flex justify-between items-start">
-        <h3 className="text-xl font-semibold">
-          {test.title}
-        </h3>
+    <form
+      onSubmit={handleSubmit}
+      className="bg-white border border-neutral-200 rounded-3xl p-8 space-y-6"
+    >
+      <h2 className="text-2xl font-bold">
+        {initialData
+          ? "Edit Test"
+          : "Create Test"}
+      </h2>
 
-        <span
-          className={`px-3 py-1 rounded-full text-xs font-medium ${
-            test.status === "ACTIVE"
-              ? "bg-green-100 text-green-700"
-              : "bg-neutral-100 text-neutral-700"
-          }`}
-        >
-          {test.status}
-        </span>
-      </div>
+      <Input
+        label="Test Title"
+        name="title"
+        value={formData.title}
+        onChange={handleChange}
+        required
+      />
 
-      <p className="text-neutral-500 text-sm mt-3 line-clamp-3">
-        {test.description}
-      </p>
+      <div>
+        <label className="font-medium">
+          Description
+        </label>
 
-      <div className="grid grid-cols-3 gap-4 mt-6 text-center">
-        <div>
-          <p className="text-xl font-bold">
-            {test.questions?.length || 0}
-          </p>
-          <p className="text-xs text-neutral-500">
-            Questions
-          </p>
-        </div>
-
-        <div>
-          <p className="text-xl font-bold">
-            {test.duration}
-          </p>
-          <p className="text-xs text-neutral-500">
-            Minutes
-          </p>
-        </div>
-
-        <div>
-          <p className="text-xl font-bold">
-            {test.totalMarks}
-          </p>
-          <p className="text-xs text-neutral-500">
-            Marks
-          </p>
-        </div>
-      </div>
-
-      <div className="flex gap-3 mt-6">
-        <Button
-          onClick={() =>
-            onView(test)
+        <textarea
+          rows={4}
+          name="description"
+          value={
+            formData.description
           }
-        >
-          View
-        </Button>
-
-        <Button
-          variant="secondary"
-          onClick={() =>
-            onEdit(test)
+          onChange={
+            handleChange
           }
-        >
-          Edit
-        </Button>
+          className="w-full mt-2 border border-neutral-300 rounded-xl p-4 outline-none focus:border-black"
+        />
       </div>
-    </div>
+
+      <Input
+        label="Duration (Minutes)"
+        type="number"
+        name="duration"
+        value={
+          formData.duration
+        }
+        onChange={
+          handleChange
+        }
+        required
+      />
+
+      <div>
+        <label className="font-medium block mb-3">
+          Select Questions (
+          {
+            selectedQuestions.length
+          }{" "}
+          selected)
+        </label>
+
+        <div className="border border-neutral-300 rounded-xl max-h-80 overflow-y-auto">
+          {questions.length ===
+          0 ? (
+            <p className="p-4 text-neutral-500">
+              No questions found
+            </p>
+          ) : (
+            questions.map((q) => (
+              <label
+                key={q._id}
+                className="flex items-start gap-3 p-4 border-b border-neutral-200 cursor-pointer hover:bg-neutral-50"
+              >
+                <input
+                  type="checkbox"
+                  checked={selectedQuestions.includes(
+                    q._id
+                  )}
+                  onChange={() =>
+                    toggleQuestion(
+                      q._id
+                    )
+                  }
+                  className="mt-1"
+                />
+
+                <div className="flex-1">
+                  <p className="font-medium">
+                    {
+                      q.questionText
+                    }
+                  </p>
+
+                  <div className="flex gap-3 mt-1 text-sm text-neutral-500">
+                    <span>
+                      {
+                        q.category
+                      }
+                    </span>
+
+                    <span>
+                      {
+                        q.difficulty
+                      }
+                    </span>
+
+                    <span>
+                      {q.marks}{" "}
+                      Mark
+                      {q.marks >
+                      1
+                        ? "s"
+                        : ""}
+                    </span>
+                  </div>
+                </div>
+              </label>
+            ))
+          )}
+        </div>
+      </div>
+
+      <Button
+        type="submit"
+        loading={loading}
+        className="w-full"
+      >
+        {initialData
+          ? "Update Test"
+          : "Create Test"}
+      </Button>
+    </form>
   );
 };
 
-export default TestCard;
+export default TestForm;

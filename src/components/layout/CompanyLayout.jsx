@@ -7,6 +7,8 @@ import {
   FiFileText,
 } from "react-icons/fi";
 
+import { FaRegNoteSticky } from "react-icons/fa6";
+
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
@@ -33,7 +35,7 @@ const CompanyLayout = () => {
     {
       label: "My Tests",
       path: "/company/tests",
-      icon: <FiBarChart2 />,
+      icon:  <FaRegNoteSticky />,
     },
     {
       label: "Analytics",

@@ -1,4 +1,5 @@
 import React from "react";
+import { Trash2, Pencil } from "lucide-react";
 
 const QuestionTable = ({
   questions = [],
@@ -10,6 +11,10 @@ const QuestionTable = ({
       <table className="w-full">
         <thead>
           <tr className="bg-neutral-100">
+            <th className="text-left p-4 w-16">
+              #
+            </th>
+
             <th className="text-left p-4">
               Question
             </th>
@@ -33,13 +38,17 @@ const QuestionTable = ({
         </thead>
 
         <tbody>
-          {questions.map((q) => (
+          {questions.map((q, index) => (
             <tr
-              key={q._id}
+              key={q._id || index}
               className="border-t border-neutral-200"
             >
+              <td className="p-4 font-medium">
+                {index + 1}
+              </td>
+
               <td className="p-4 max-w-md">
-                {q.question}
+                {q.questionText}
               </td>
 
               <td className="p-4">
@@ -55,23 +64,26 @@ const QuestionTable = ({
               </td>
 
               <td className="p-4">
-                <div className="flex gap-4">
+                <div className="flex items-center gap-3">
                   <button
-                    onClick={() =>
-                      onEdit(q)
-                    }
-                    className="font-medium hover:underline"
+                    onClick={() => onEdit(q)}
+                    className="p-2 rounded-lg hover:bg-neutral-100 transition"
+                    title="Edit Question"
                   >
-                    Edit
+                    <Pencil size={18} />
                   </button>
 
                   <button
                     onClick={() =>
                       onDelete(q._id)
                     }
-                    className="text-red-600 hover:underline"
+                    className="p-2 rounded-lg hover:bg-red-50 transition"
+                    title="Delete Question"
                   >
-                    Delete
+                    <Trash2
+                      size={18}
+                      className="text-red-500"
+                    />
                   </button>
                 </div>
               </td>
@@ -81,7 +93,7 @@ const QuestionTable = ({
           {questions.length === 0 && (
             <tr>
               <td
-                colSpan="5"
+                colSpan="6"
                 className="text-center py-10 text-neutral-500"
               >
                 No Questions Found

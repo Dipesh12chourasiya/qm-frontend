@@ -23,11 +23,11 @@ const TestTable = ({
             </th>
 
             <th className="text-left p-4">
-              Marks
+              Status
             </th>
 
             <th className="text-left p-4">
-              Status
+              Created
             </th>
 
             <th className="text-left p-4">
@@ -40,14 +40,14 @@ const TestTable = ({
           {tests.map((test) => (
             <tr
               key={test._id}
-              className="border-t border-neutral-200"
+              className="border-t border-neutral-200 hover:bg-neutral-50"
             >
-              <td className="p-4">
+              <td className="p-4 font-medium">
                 {test.title}
               </td>
 
               <td className="p-4">
-                {test.questions?.length}
+                {test.totalQuestions}
               </td>
 
               <td className="p-4">
@@ -55,29 +55,37 @@ const TestTable = ({
               </td>
 
               <td className="p-4">
-                {test.totalMarks}
+                <span className="px-3 py-1 rounded-full text-sm bg-neutral-100">
+                  {test.status}
+                </span>
               </td>
 
               <td className="p-4">
-                {test.status}
+                {new Date(
+                  test.createdAt
+                ).toLocaleDateString()}
               </td>
 
               <td className="p-4">
                 <div className="flex gap-4">
                   <button
+                    type="button"
                     onClick={() =>
+                      onView &&
                       onView(test)
                     }
-                    className="font-medium hover:underline"
+                    className="font-medium text-blue-600 hover:underline"
                   >
                     View
                   </button>
 
                   <button
+                    type="button"
                     onClick={() =>
+                      onEdit &&
                       onEdit(test)
                     }
-                    className="font-medium hover:underline"
+                    className="font-medium text-green-600 hover:underline"
                   >
                     Edit
                   </button>
