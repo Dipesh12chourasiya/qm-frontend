@@ -37,11 +37,7 @@ const CompanyLayout = () => {
       path: "/company/tests",
       icon:  <FaRegNoteSticky />,
     },
-    {
-      label: "Analytics",
-      path: "/company/analytics",
-      icon: <FiBarChart2 />,
-    },
+
   ];
 
   return (

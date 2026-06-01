@@ -1,13 +1,8 @@
-import React, {
-  useEffect,
-  useState,
-} from "react";
-
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 import PageHeader from "../../components/common/PageHeader";
 import Loader from "../../components/common/Loader";
-
 import { useTests } from "../../hooks/useTests";
 
 const AvailableTests = () => {
@@ -18,11 +13,8 @@ const AvailableTests = () => {
     registerForTest,
   } = useTests();
 
-  const [search, setSearch] =
-    useState("");
-
-  const [registeringId, setRegisteringId] =
-    useState(null);
+  const [search, setSearch] = useState("");
+  const [registeringId, setRegisteringId] = useState(null);
 
   useEffect(() => {
     loadTests();
@@ -36,28 +28,20 @@ const AvailableTests = () => {
     }
   };
 
-  const handleRegister = async (
-    testId
-  ) => {
+  const handleRegister = async (testId) => {
     try {
       setRegisteringId(testId);
 
-      const response =
-        await registerForTest(testId);
+      const response = await registerForTest(testId);
 
-      alert(
-        response.message ||
-          "Registered successfully"
-      );
+      alert(response.message || "Registered successfully");
 
-      await loadTests();
+      await loadTests(); // refresh status
     } catch (error) {
       alert(
-        error?.response?.data
-          ?.message ||
+        error?.response?.data?.message ||
           "Registration failed"
       );
-
       console.error(error);
     } finally {
       setRegisteringId(null);
@@ -66,9 +50,7 @@ const AvailableTests = () => {
 
   const filteredTests =
     tests?.filter((test) =>
-      test.title
-        ?.toLowerCase()
-        .includes(search.toLowerCase())
+      test.title?.toLowerCase().includes(search.toLowerCase())
     ) || [];
 
   if (loading && tests.length === 0) {
@@ -87,9 +69,7 @@ const AvailableTests = () => {
           type="text"
           placeholder="Search tests..."
           value={search}
-          onChange={(e) =>
-            setSearch(e.target.value)
-          }
+          onChange={(e) => setSearch(e.target.value)}
           className="w-full md:w-96 px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
         />
       </div>
@@ -99,7 +79,6 @@ const AvailableTests = () => {
           <h2 className="text-xl font-semibold text-gray-600">
             No Tests Found
           </h2>
-
           <p className="text-gray-500 mt-2">
             Try changing your search.
           </p>
@@ -117,45 +96,49 @@ const AvailableTests = () => {
 
               <div className="space-y-2 text-gray-600">
                 <p>
-                  <span className="font-medium">
-                    Duration:
-                  </span>{" "}
+                  <span className="font-medium">Duration:</span>{" "}
                   {test.duration} mins
                 </p>
 
                 <p>
-                  <span className="font-medium">
-                    Questions:
-                  </span>{" "}
-                  {test.questionIds
-                    ?.length || 0}
+                  <span className="font-medium">Questions:</span>{" "}
+                  {test.questionIds?.length || 0}
                 </p>
 
                 <p>
-                  <span className="font-medium">
-                    Created:
-                  </span>{" "}
-                  {new Date(
-                    test.createdAt
-                  ).toLocaleDateString()}
+                  <span className="font-medium">Created:</span>{" "}
+                  {new Date(test.createdAt).toLocaleDateString()}
+                </p>
+
+                {/* 🔥 NEW: Registration Status */}
+                <p>
+                  <span className="font-medium">Status:</span>{" "}
+                  {test.isRegistered ? (
+                    <span className="text-green-600 font-semibold">
+                      Registered
+                    </span>
+                  ) : (
+                    <span className="text-gray-500">Not Registered</span>
+                  )}
                 </p>
               </div>
 
               <div className="flex gap-3 mt-6">
+                {/* 🔥 REGISTER BUTTON (UPDATED) */}
                 <button
-                  onClick={() =>
-                    handleRegister(
-                      test._id
-                    )
-                  }
+                  onClick={() => handleRegister(test._id)}
                   disabled={
-                    registeringId ===
-                    test._id
+                    registeringId === test._id || test.isRegistered
                   }
-                  className="flex-1 bg-green-600 hover:bg-green-700 disabled:bg-green-400 text-white py-2 rounded-lg transition"
+                  className={`flex-1 py-2 rounded-lg text-white transition ${
+                    test.isRegistered
+                      ? "bg-gray-500 cursor-not-allowed"
+                      : "bg-green-600 hover:bg-green-700"
+                  }`}
                 >
-                  {registeringId ===
-                  test._id
+                  {test.isRegistered
+                    ? "Registered"
+                    : registeringId === test._id
                     ? "Registering..."
                     : "Register"}
                 </button>

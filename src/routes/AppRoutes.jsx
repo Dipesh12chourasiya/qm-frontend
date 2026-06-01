@@ -85,7 +85,7 @@ const AppRoutes = () => {
 
         <Route path="tests/:id" element={<TestDetails />} />
 
-        <Route path="analytics" element={<Analytics />} />
+        <Route path="tests/:id/analytics" element={<Analytics />} />
       </Route>
 
       {/* STUDENT ROUTES */}
