@@ -25,6 +25,7 @@ import StudentTestDetails from "../pages/student/TestDetails";
 import AttemptTest from "../pages/student/AttemptTest";
 import MyAttempts from "../pages/student/MyAttempts";
 import ResultPage from "../pages/student/ResultPage";
+import SystemCheck from "../pages/student/SystemCheck";
 
 import UserRoute from "./UserRoute";
 import ProtectedRoute from "./ProtectedRoute";
@@ -34,7 +35,6 @@ const AppRoutes = () => {
   return (
     <Routes>
       {/* PUBLIC ROUTES */}
-
       <Route element={<PublicLayout />}>
         <Route path="/" element={<Home />} />
 
@@ -60,7 +60,6 @@ const AppRoutes = () => {
       </Route>
 
       {/* COMPANY ROUTES */}
-
       <Route
         path="/company"
         element={
@@ -89,7 +88,6 @@ const AppRoutes = () => {
       </Route>
 
       {/* STUDENT ROUTES */}
-
       <Route
         path="/student"
         element={
@@ -104,7 +102,11 @@ const AppRoutes = () => {
 
         <Route path="tests/:id" element={<StudentTestDetails />} />
 
-        <Route path="attempt/:testId" element={<AttemptTest />} />
+        {/* System Check */}
+        <Route path="tests/:testId/system-check" element={<SystemCheck />} />
+
+        {/* Attempt Test */}
+        <Route path="tests/:testId/attempt" element={<AttemptTest />} />
 
         <Route path="attempts" element={<MyAttempts />} />
 
