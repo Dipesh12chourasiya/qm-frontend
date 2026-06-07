@@ -4,12 +4,16 @@ import {
 } from "react";
 
 import { useProctoring } from "../../context/ProctoringContext";
+import useFaceDetection from "../../hooks/useFaceDetection";
 
 const CameraMonitor = () => {
   const videoRef = useRef(null);
   const streamRef = useRef(null);
 
   const { addViolation } = useProctoring();
+
+  // Start face detection
+  useFaceDetection(videoRef);
 
   useEffect(() => {
     let mounted = true;
@@ -61,7 +65,7 @@ const CameraMonitor = () => {
           null;
       }
     };
-  }, []);
+  }, [addViolation]);
 
   return (
     <video
